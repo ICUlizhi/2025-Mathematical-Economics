@@ -37,21 +37,142 @@
 % TODO
 \chapter{Topology of $\mathbb{R}^N$}
 
-\begin{introdution}[Keywords]
+\begin{introduction}[Keywords]
     \item Topology 拓扑
     \item Metric Space 度量空间
     \item Convergence 收敛
+    \item interior 内部
+    \item closure 闭包
+    \item boundary 边界
+    \item compact set 紧集
+    \item cluster point 聚点
 \end{introduction}
 
 \section{Metric Spaces}
+\subsection{Definition of Metric Spaces}
+\begin{definition}
+    Let $X$ be a set. A function $d: X \times X \rightarrow \mathbb{R}$ is called a \textbf{metric} (or \textbf{distance}) on $X$ if :
+    \begin{enumerate}
+        \item (positivity) $d(x,y) \geq 0$ for all $x,y \in X$ and $d(x,y) = 0$ if and only if $x = y$.
+        \item (symmetry) $d(x,y) = d(y,x)$ for all $x,y \in X$.
+        \item (triangle inequality) $d(x,y) \leq d(x,z) + d(z,y)$ for all $x,y,z \in X$.
+    \end{enumerate}
+\end{definition}
+A set $X$ together with a metric $d$ is called a \textbf{metric space}, denoted by $(X,d)$.
+
+\subsection{Examples of metrics in $\mathbb{R}^N$}
+\begin{itemize}
+    \item \textbf{ Euclidean metric}: $d(x,y) = \sqrt{\sum_{i=1}^{N} (x_i - y_i)^2}$.
+    \item $L^p$ \textbf{metric} (for $p\ge 1$): $d(x,y) = (\sum_{i=1}^{N} |x_i - y_i|^p)^{1/p}$.
+    \item \textbf{Sup norm} (when $p=\infty$): $d(x,y) = \max_{i=1}^{N} |x_i - y_i|$.
+\end{itemize}
 
 \section{Convergence of sequences}
+\subsection{Definition of Convergence}
+\begin{definition}
+    Let $(X,d)$ be a metric space. A sequence $\{x_n\}$ in $X$ is said to \textbf{converge} to a point $x \in X$ if for every $\epsilon > 0$, there exists an integer $N$ such that $d(x_n,x) < \epsilon$ for all $n \geq N$. In this case, we write $\lim_{n \rightarrow \infty} x_n = x$. A sequence that converges is called \textbf{convergent}, otherwise it is called \textbf{divergent}.
+\end{definition}
+
+\begin{definition}
+    When metric space is $\mathbb{R}^N$, we say that $\{x_n\}$ is \textbf{bounded} if there exists a real number $M$ such that $\|x_k\| \leq M$ for all $n$.
+\end{definition}
+\subsection{Cauchy Sequences and Complete Metric Spaces}
+\begin{itemize}
+    \item \textbf{Cauchy sequence}: A sequence $\{x_n\}$ in a metric space $(X,d)$ is called a \textbf{Cauchy sequence} if for every $\epsilon > 0$, there exists an integer $N$ such that $d(x_n,x_m) < \epsilon$ for all $n,m \geq N$.
+    \item \textbf{Complete metric space}: A metric space $(X,d)$ is called \textbf{complete} if every Cauchy sequence in $X$ converges to a point in $X$.
+\end{itemize}
+\begin{theorem}
+    Any convergent sequence in a metric space is a Cauchy sequence.
+\end{theorem}
+\subsection{Example: Cauchy Sequence Not Convergent in $\mathbb{Q}$}
+Consider the metric space $(\mathbb{Q},d)$, where $d(x,y) = |x-y|$. 
+
+\textbf{Fibonacci sequence} :
+Let $\{F_k\}$ be the Fibonacci sequence, defined by $$F_1 = F_2 = 1, F_{k+1} = F_k + F_{k-1}, k \geq 2$$ 
+
+\textbf{A Special Sequence}:
+Define $a_k = \frac{F_{k+1}}{F_k}$. Then $\{a_k\}$ is a Cauchy sequence in $\mathbb{Q}$ but does not converge in $\mathbb{Q}$.
+\subsection{Properties of Convergent Sequences in $\mathbb{R}^N$}
+Consider $\mathbb{R}^N$ with the Euclidean metric. Let $\{x_n\}$ and $\{y_n\}$ be two sequences.
+\begin{itemize}
+    \item \textbf{Preservation of Addition/Subtraction}: If $\lim_{n \rightarrow \infty} x_n = x$ and $\lim_{n \rightarrow \infty} y_n = y$, then $\lim_{n \rightarrow \infty} (x_n \pm y_n) = x \pm y$.
+    \item \textbf{Preservation of Multiplication}: If $\lim_{n \rightarrow \infty} x_n = x$ and $\lim_{n \rightarrow \infty} y_n = y$, then $\lim_{n \rightarrow \infty} (x_n \cdot y_n) = x \cdot y$.
+    \item \textbf{Preservation of Division}: If $\lim_{n \rightarrow \infty} x_n = x$ and $\lim_{n \rightarrow \infty} y_n = y \neq 0$, then $\lim_{n \rightarrow \infty} \frac{x_n}{y_n} = \frac{x}{y}$.
+    \item \textbf{Preservation of Inequality}: If $\lim_{n \rightarrow \infty} x_n = x$ and $\lim_{n \rightarrow \infty} y_n = y$, then $x_n \leq y_n$ for all $n$ implies $x \leq y$.
+\end{itemize}
+
+\subsection{Properties of Sequences in $\mathbb{R}^N$}
+\begin{property}
+A convergent sequence in $\mathbb{R}^N$ is bounded.
+\end{property}
+
+A sequence $\{x_{n_k}\}$ is called a \textbf{subsequence} of $\{x_n\}$ if $n_1 < n_2 < n_3 < \cdots$.
+
+\begin{property}
+    subsequences of a convergent sequence in $\mathbb{R}^N$ also converge to the same limit.
+\end{property}
+
+\subsection{Limit Superior and Limit Inferior}
+\begin{definition}
+    Let $\{x_n\}$ be a sequence in $\mathbb{R}^N$. The \textbf{limit superior} of $\{x_n\}$ is defined by $$\limsup_{n \rightarrow \infty} x_n = \lim_{n \rightarrow \infty} \left( \sup_{k \geq n} x_k \right)$$
+    The \textbf{limit inferior} of $\{x_n\}$ is defined by $$\liminf_{n \rightarrow \infty} x_n = \lim_{n \rightarrow \infty} \left( \inf_{k \geq n} x_k \right)$$
+\end{definition}
 
 \section{Topological properties}
+\subsection{Open and Closed Sets}
+\begin{definition}
+    In a metric space $(X,d)$, a set $U \subset X$ is called \textbf{open} if for every $x \in U$, there exists an $\epsilon > 0$ such that $B(x,\epsilon) \subset U$. A set $F \subset X$ is called \textbf{closed} if its complement $F^c \overset{\text{def}}{=} X \backslash F$ is open.
+\end{definition}
+\begin{property}
+    For open sets:
+    \begin{enumerate}
+        \item The union of any collection of open sets is open.
+        \item The intersection of finitely many open sets is open.
+    \end{enumerate}
+    For closed sets:
+    \begin{enumerate}
+        \item The intersection of any collection of closed sets is closed.
+        \item The union of finitely many closed sets is closed.
+    \end{enumerate}
+\end{property}
+\subsection{Interior, Closure, and Boundary of Sets}
+\begin{definition}
+    The \textbf{interior} of a set $A \subset X$ is defined as: $$\text{int}(A) = \bigcup \{U \subset A: U \text{ is open}\}$$
+    The \textbf{closure} of a set $A \subset X$ is defined as: $$\overline{A} = \bigcap \{F \supset A: F \text{ is closed}\}$$
+    The \textbf{boundary} of a set $A \subset X$ is defined as: $$\partial A = \overline{A} \backslash \text{int}(A)$$
+\end{definition}
+
+\begin{theorem}
+    \begin{itemize}
+        \item $A \subset X$ is open if and only if $\partial A \subset A$.
+        \item $A \subset X$ is closed if and only if $\partial A \subset A$.
+    \end{itemize}
+\end{theorem}
+\subsection{Bounded Sets and Compact Sets in $\mathbb{R}^N$}
+\begin{definition}
+    A set $A \subset \mathbb{R}^N$ is called \textbf{bounded} if there exists a real number $M$ such that $\|x\| \leq M$ for all $x \in A$.
+
+    A set $A \subset \mathbb{R}^N$ is called \textbf{compact} if for any sequence $\{x_n\}$ in $A$, there exists a subsequence $\{x_{n_k}\}$ that converges to a point in $A$.
+\end{definition}
+
+\begin{theorem} [Heine-Borel Theorem]
+    In $\mathbb{R}^N$, a set $A$ is compact if and only if it is closed and bounded.
+\end{theorem}
 
 \section{Continuous functions}
+\subsection{Cluster Points in Metric Spaces}
+\begin{definition}
+    Let $(X,d)$ be a metric space and $A \subset X$. A point $x \in X$ is called a \textbf{cluster point} of $A$ if for every $\epsilon > 0$, there exists a point $y \in A$ such that $d(x,y) < \epsilon$ and $x \neq y$.
 
+    Equivalently, $x$ is a cluster point of $A$ if there exists a sequence $\{x_n\}$ in $A$ such that $\lim_{n \rightarrow \infty} x_n = x$ and $x_n \neq x$ for all $n$.
+\end{definition}
 
+\subsection{Limits of Functions at Cluster Points}
+\begin{definition}
+    Let $(X,d)$ and $(Y,\rho)$ be metric spaces, $A \subset X$, $f: A \rightarrow Y$, and $x$ be a cluster point of $A$. We say that $f$ has a \textbf{limit} $y \in Y$ at $x$ if for every $\epsilon > 0$, there exists a $\delta > 0$ such that $\rho(f(y),y) < \epsilon$ for all $y \in A$ with $0 < d(x,y) < \delta$.
+
+    Equivalently, using neighborhoods: $f$ has a limit $y$ at $x$ if for every neighborhood $V$ of $y$, there exists a neighborhood $U$ of $x$ such that $f(U \cap A) \subset V$.
+\end{definition}
 \end{document}
 % \end{comment}
 
