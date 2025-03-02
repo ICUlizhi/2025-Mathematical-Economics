@@ -1,7 +1,99 @@
-% Title: chapter1.tex
-\chapter{Linear Algebra}
-这章没必要记了
+ \begin{comment}
+    
+
+\documentclass[lang=cn,10pt,green]{elegantbook} 
+\title{2025年数理经济学笔记}
+\subtitle{授课: 杨佳楠老师}
+
+\author{徐靖}
+\institute{PKU}
+\date{Febuary 27, 2025}
+\bioinfo{声明}{请勿用于个人学习外其他用途!}
+
+\extrainfo{个人笔记, 如有谬误, 欢迎指正! 联系方式 : 2200012917@stu.pku.edu.cn}
+
+\setcounter{tocdepth}{3}
+
+\logo{logo-blue.png}
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+
+\maketitle
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+
+%\end{comment}
+
+\chapter{Linear Algebra\footnote{只记一些矩阵分解吧, 以防忘了}}
+\begin{introduction}
+    \item Leading Principal Minor : 顺序主子式
+    \item Orthogonal matrix : 正交矩阵
+    \item Symmetric matrix : 对称矩阵
+    \item Positive definite matrix : 正定矩阵
+    \item Positive semi-definite matrix : 半正定矩阵
+    \item Determinant : 行列式
+\end{introduction}
+\begin{definition}
+    For $N\times N$ matrix $A = (a_{ij})$, using any row or colunm:
+    $$ \det A = \sum_{i=1}^{N} (-1)^{i+j} a_{ij} \det A_{ij} $$
+    where $A_{ij}$ is the $(N-1)\times (N-1)$ matrix obtained by deleting the $i$-th row and $j$-th column of $A$.
+\end{definition}
+\begin{theorem}
+    $$A^{-1} = \frac{1}{\det A} \tilde{A} $$
+    where $\tilde{a_{mn}} = (-1)^{m+n} \det A_{nm}$.
+\end{theorem}
+\begin{definition}
+    \textbf{Orthogonal} matrix : $P^T P = I$. 
+
+    \textbf{Symmetric} matrix : $A^T = A$.
+    
+    \textbf{Positive definite} matrix : $x^T A x > 0$ for all $x \neq 0$.
+    
+    \textbf{Positive semi-definite} matrix : $x^T A x \geq 0$ for all $x$.
+\end{definition}
+\begin{definition}
+    \textbf{Leading Principal Minor} : determinant of the first $k\times k$ submatrix of $A$.
+    For real symmetric matrix $A$, $A$ is positive definite if and only if all its leading principal minors are positive.
+\end{definition}
 
 
+\begin{definition}
+    $$Av = \lambda v$$
+    where $v$ is \textbf{eigenvector}, $\lambda$ is \textbf{eigenvalue}.
+    $\lambda$ is a root of the \textbf{characteristic polynomial} $\det(A - \lambda I) = 0$.
+\end{definition}
+
+\begin{definition}
+    \textbf{Complex inner product} :
+    $$\langle x,y \rangle = x^* y = \sum_{i=1}^{n} \bar{x_i} y_i$$
+    where $\bar{x}$ is the \textbf{complex conjugate} and $x^*$ is the \textbf{conjugate transpose} (adjoint).
+\end{definition}
+
+\begin{definition}
+    \textbf{Hermitian matrix} : $A^* = A$.
+    
+    For real matrices, Hermitian matrix is symmetric.
+
+    For Hermitian matrix, all eigenvalues are real.    
+\end{definition}
+
+\begin{theorem}[Diagonalization of Symmetric Matrices]
+    $$P^T A P = \text{diag} \{\lambda_1,\dots,\lambda_n\}$$
+    where $P$ is orthogonal matrix, $\lambda_i$ are eigenvalues of $A$.
+\end{theorem}
+
+% \end{document}
 
 
