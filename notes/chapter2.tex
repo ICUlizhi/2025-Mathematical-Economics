@@ -46,6 +46,12 @@
     \item boundary 边界
     \item compact set 紧集
     \item cluster point 聚点
+    \item Lipschitz continuity 利普希茨连续
+    \item semicontinuity 半连续
+    \item Bolzano-Weierstrass Theorem 博尔扎诺-魏尔斯特拉斯定理
+    \item Heine-Borel Theorem 海涅-波雷尔定理
+    \item Contraction Mapping Theorem 压缩映射定理
+    \item Intermediate Value Theorem 中值定理
 \end{introduction}
 
 \section{Metric Spaces}
@@ -142,12 +148,12 @@ A sequence $\{x_{n_k}\}$ is called a \textbf{subsequence} of $\{x_n\}$ if $n_1 <
     The \textbf{boundary} of a set $A \subset X$ is defined as: $$\partial A = \overline{A} \backslash \text{int}(A)$$
 \end{definition}
 
-\begin{theorem}
+\begin{proposition}
     \begin{itemize}
         \item $A \subset X$ is open if and only if $\partial A \subset A$.
         \item $A \subset X$ is closed if and only if $\partial A \subset A$.
     \end{itemize}
-\end{theorem}
+\end{proposition}
 \subsection{Bounded Sets and Compact Sets in $\mathbb{R}^N$}
 \begin{definition}
     A set $A \subset \mathbb{R}^N$ is called \textbf{bounded} if there exists a real number $M$ such that $\|x\| \leq M$ for all $x \in A$.
@@ -169,11 +175,93 @@ A sequence $\{x_{n_k}\}$ is called a \textbf{subsequence} of $\{x_n\}$ if $n_1 <
 
 \subsection{Limits of Functions at Cluster Points}
 \begin{definition}
-    Let $(X,d)$ and $(Y,\rho)$ be metric spaces, $A \subset X$, $f: A \rightarrow Y$, and $x$ be a cluster point of $A$. We say that $f$ has a \textbf{limit} $y \in Y$ at $x$ if for every $\epsilon > 0$, there exists a $\delta > 0$ such that $\rho(f(y),y) < \epsilon$ for all $y \in A$ with $0 < d(x,y) < \delta$.
+    Let $(X,d)$ and $(Y,\rho)$ be metric spaces, $A \subset X$, $f: A \rightarrow Y$, and $x$ be a cluster point of $A$. We say that $f$ has a \textbf{limit} $y \in Y$ at $x$ if for every $\epsilon > 0$, there exists a $\delta > 0$ such that $\rho(f(x_0),y) < \epsilon$ for all $x_0 \in A$ such that $0 < d(x_0,x) < \delta$.
 
     Equivalently, using neighborhoods: $f$ has a limit $y$ at $x$ if for every neighborhood $V$ of $y$, there exists a neighborhood $U$ of $x$ such that $f(U \cap A) \subset V$.
 \end{definition}
+\begin{property}
+    \begin{enumerate}
+        \item $\lim_{x\to \bar{x}} f(x) = f(\bar{x})$ if and only if for every sequence $\{x_n\}$ in $A$ such that $\lim_{n \to \infty} x_n = \bar{x}$, we have $\lim_{n \to \infty} f(x_n) = f(\bar{x})$.
+        \item If $f$ has a limit at $x$, then the limit is unique.
+    \end{enumerate}
+\end{property}
+
+\subsection{Continuity of Functions}
+\begin{definition}
+    Let $(X, d)$ and $(Y, \rho)$ be metric spaces, and $f : X \to Y$.
+\begin{itemize}
+    \item $f$ is \textbf{continuous at} $\bar{x} \in X$ if:
+    $$
+    \forall \varepsilon > 0, \exists \delta > 0 : \forall x \in X, d(x, \bar{x}) < \delta \Rightarrow \rho(f(x), f(\bar{x})) < \varepsilon
+    $$
+    Equivalently:
+    $$
+    \forall \varepsilon > 0, \exists \delta > 0 : f(B_\delta(\bar{x})) \subseteq B_\varepsilon(f(\bar{x}))
+    $$
+    \item $f$ is \textbf{continuous on} $X$ (or simply \textbf{continuous}) if:
+    $$
+    \forall \bar{x} \in X, f \text{ is continuous at } \bar{x}
+    $$
+\end{itemize}
+\end{definition}
+
+\begin{proposition}
+    Let $(X,d)$ and $(Y,\rho)$ be metric spaces, $f : X \to Y$, and $x \in X$. The following are equivalent:
+    \begin{enumerate}
+        \item $f$ is continuous at $x$.
+        \item For every sequence $\{x_n\}$ in $X$ such that $\lim_{n \to \infty} x_n = x$, we have $\lim_{n \to \infty} f(x_n) = f(x)$.
+        \item For every open set $V \subset Y$, $f^{-1}(V)$ is open in $X$.
+    \end{enumerate}
+\end{proposition}
+\subsection{Bolzano-Weierstrass Theorem}
+\begin{theorem}[Bolzano-Weierstrass Theorem]
+    If $K \subset \mathbb{R}^N$ is compact and nonempty, and $f : K \to \mathbb{R}^M$ is continuous, then :
+    \begin{enumerate}
+        \item $f(K)$ is compact.
+        \item $f$ attains its maximum and minimum on $K$.
+    \end{enumerate}
+\end{theorem}
+
+\subsection{Semicontinuity}
+\begin{definition}
+    For $f:\mathbb{R}^N \to \mathbb{R}^M$ :
+    \begin{itemize}
+        \item $f$ is \textbf{upper semicontinuous} at $x$ if :
+        $$ f(x) \leq \limsup_{y \to x} f(y) \text{ for all } x \in \mathbb{R}^N$$
+        \item $f$ is \textbf{lower semicontinuous} at $x$ if :
+        $$ f(x) \geq \liminf_{y \to x} f(y) \text{ for all } x \in \mathbb{R}^N$$
+    \end{itemize}
+\end{definition}
+\begin{remark} $f$ is upper semicontinuous $\Leftrightarrow -f$ is lower semicontinuous. \end{remark}
+\begin{theorem}[Extrema of semicontinuous Functions]
+    Let $K \subset \mathbb{R}^N$ be compact and $f: K \to \mathbb{R}$ be upper semicontinuous. Then $f$ attains its maximum on $K$. If $f$ is lower semicontinuous, then $f$ attains its minimum on $K$.
+\end{theorem}
+
+\subsection{Lipschitz Continuity}
+\begin{definition}
+    A function $f: \mathbb{R}^N \to \mathbb{R}^M$ is called \textbf{Lipschitz continuous} if there exists a constant $K > 0$ such that:
+    $$\|f(x) - f(y)\| \leq K \|x - y\| \text{ for all } x,y \in \mathbb{R}^N$$
+    where $K$ is called the \textbf{Lipschitz constant} of $f$. If $K < 1$, then $f$ is called a \textbf{contraction mapping}.
+\end{definition}
+\begin{remark}
+    Lipschitz continuity implies uniform continuity, but the converse is not true. For example, $f(x) = x^2 $.
+\end{remark}
+
+\begin{theorem}[Contraction Mapping Theorem]
+    Let $(X, d)$ be a complete metric space and $f: X \to X$ be a contraction mapping. Then $f$ has a unique fixed point $x^* \in X$, i.e., $f(x^*) = x^*$.
+\end{theorem}
+
+
+\begin{theorem}[Intermediate Value Theorem]
+    Let $f: D \to \mathbb{R}$ be a continuous function and $D \subset \mathbb{R}$. If :
+    \begin{itemize}
+        \item $[a,b] \subset D$ (closed interval)
+        \item $y$ is between $f(a)$ and $f(b)$
+    \end{itemize}
+    then there exists a point $c \in [a,b]$ such that $f(c) = y$.
+\end{theorem}
 %\end{document}
+
 
 
 

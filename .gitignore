@@ -24,7 +24,6 @@ shapenetcore_partanno_segmentation_benchmark_v0
 *.ps
 *.toc
 *.out
-*.pdf
 !resources/**/*.pdf
 *.xml
 *.synctex.gz
