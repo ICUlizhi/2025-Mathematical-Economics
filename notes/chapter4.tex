@@ -1,0 +1,153 @@
+%\begin{comment}
+    
+
+\documentclass[lang=cn,10pt,green]{elegantbook} 
+\title{2025年数理经济学笔记}
+\subtitle{授课: 杨佳楠老师}
+
+\author{徐靖}
+\institute{PKU}
+\date{Febuary 27, 2025}
+\bioinfo{声明}{请勿用于个人学习外其他用途!}
+
+\extrainfo{个人笔记, 如有谬误, 欢迎指正! 联系方式 : 2200012917@stu.pku.edu.cn}
+
+\setcounter{tocdepth}{3}
+
+\logo{logo-blue.png}
+\cover{cover.jpg}
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+
+\maketitle
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+% \end{comment}
+% TODO
+
+\chapter{Multi-Variable Unconstrained Optimization}
+
+\begin{introduction}[Keywords]
+    \item First Order Condition 一阶条件
+    \item Bisection Method 二分法
+    \item Newton's Method 牛顿法
+\end{introduction}
+
+\section{First Order Condition}
+An Unconstrained Optimization Problem is :
+$$\min_{x \in \mathbb{R}^n} f(x)$$
+
+\begin{definition}
+    \textbf{First Order Condition (FOC)}:  $\nabla f(x^*) = 0$.
+    \begin{itemize}
+        \item $x^*$ is a \textbf{stationary point} (驻点) of $f$.
+        \item It is necessary but not sufficient.
+    \end{itemize}
+    \textbf{global minimum}: $f(x^*) \leq f(x)$ for all $x \in \mathbb{R}^n$.
+    
+    \textbf{local minimum}: $f(x^*) \leq f(x)$ for all $x \in B(x^*, \epsilon)$ for some $\epsilon > 0$.
+\end{definition}
+
+\begin{proposition}
+    Let $f: \mathbb{R}^n \to \mathbb{R}$ be a continuously differentiable function, and $\nabla f(x^*) = 0$. If $\nabla^2 f(x^*)$ is:
+    \begin{itemize}
+        \item positive definite, then $x^*$ is a local minimum.
+        \item negative definite, then $x^*$ is a local maximum.
+        \item indefinite, then $x^*$ is a \textbf{saddle point}. (鞍点)
+    \end{itemize} 
+\end{proposition}
+
+\section{Convex Optimization}
+\begin{definition}[Convex Function]
+    A function $f: \mathbb{R}^n \to \mathbb{R}$ is convex if for all $x, y \in \mathbb{R}^n$ and $\lambda \in [0, 1]$:
+    $$f(\lambda x + (1 - \lambda) y) \leq \lambda f(x) + (1 - \lambda) f(y)$$
+\end{definition}
+\begin{theorem}
+    A twice continuously differentiable function $f: \mathbb{R}^n \to \mathbb{R}$ is convex if and only if its Hessian matrix $\nabla^2 f(x)$ is positive semidefinite for all $x \in \mathbb{R}^n$.
+\end{theorem}
+
+\begin{proposition}
+    Let $f$ be differentiable. Then $f$ is (strictly) convex if and only if:
+    $$ f(y) - f(x) (>) \geq \nabla f(x) \cdot (y - x) $$
+    for all $x, y \in \mathbb{R}^n$.
+\end{proposition}
+\begin{theorem}[Minimum/maximum Characterization]
+    Let $f: \mathbb{R}^n \to \mathbb{R}$ be a convex (concave) function. Then $x^*$ is a local minimum (maximum) if and only if:
+    $$\nabla f(x^*) = 0$$
+    \begin{itemize}
+        \item If $f$ is strictly \textbf{convex}, then $x^*$ is a global minimum.
+        \item If $f$ is strictly \textbf{concave}, then $x^*$ is a global maximum.
+    \end{itemize}
+\end{theorem}
+\subsection{Bisection Method}
+\begin{definition}[Bisection Method]
+    A simple, robust method for finding roots of continuous functions on bounded intervals
+    \begin{itemize}
+        \item Start with an interval $[a, b]$ such that $f(a)f(b) < 0$.
+        \item Compute the midpoint $c = \frac{a + b}{2}$, and evaluate $f(c)$.
+        \item Replace $a$ or $b$ with $c$ based on the sign of $f(c)$.
+        \item Iterate until desired precision.
+    \end{itemize}
+\end{definition}
+\begin{definition}[Convergence Rate and Order 收敛速度和阶]
+    For iteration $x_n$ approaching the root $r$, the convergence rate $C$ and order $\rho$ are defined as: 
+    $$\lim_{n \to \infty} \frac{|x_{n+1} - r|}{|x_n - r|^\rho} = C$$
+    \begin{itemize}
+        \item Linear convergence: $\rho = 1$, $C < 1$.
+        \item Quadratic convergence: $\rho = 2$, $C < 1$.
+        \item Superlinear convergence: $\rho > 1$, $C < 1$.
+    \end{itemize}
+\end{definition}
+
+\begin{table}[htbp]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|X|c|c|}
+        \hline
+        \textbf{Method} & \textbf{Definition} & \textbf{Rate} & \textbf{Order} \\
+        \hline
+        Bisection & 
+        \makecell[l]{Iteratively bisects an interval \\ and selects a subinterval} 
+        & Linear ($C = 0.5$) & 1 \\
+        \hline
+        Secant & 
+        \makecell[l]{Root approximation via secant line \\ through two points} 
+        & Superlinear ($C \approx 1.618$) & 1.618 \\
+        \hline
+        False Position & 
+        \makecell[l]{Bisection variant with \\ linear interpolation updates} 
+        & Linear & 1 \\
+        \hline
+        Newton-Raphson & 
+        \makecell[l]{Derivative-based iterative \\ root-finding} 
+        & Quadratic ($C \propto f''$) & 2 \\
+        \hline
+        Gradient method & 
+        \makecell[l]{Function minimization via \\ negative gradient direction} 
+        & Linear ($C \propto \kappa$) & 1 \\
+        \hline
+    \end{tabularx}
+    \caption{Compact Comparison of Numerical Methods}
+    \label{tab:comparison_compact}
+\end{table}
+
+\section{Numerical Optimization}
+
+\end{document}
+
+
+
+
+
+
+

@@ -1123,7 +1123,8 @@
 %页眉页脚
 \RequirePackage{fancyhdr}
 \fancyhf{}
-
+\RequirePackage{tabularx}
+\RequirePackage{makecell}
 
 \fancyfoot[c]{\color{structurecolor}\small\thepage}
 \if@twoside
