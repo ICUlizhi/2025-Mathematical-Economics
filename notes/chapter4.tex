@@ -14,8 +14,9 @@
 
 \setcounter{tocdepth}{3}
 
-\logo{logo-blue.png}
+\logo{pkuhub.cn.png}
 \cover{cover.jpg}
+
 
 % 本文档命令
 \usepackage{array}
@@ -41,6 +42,8 @@
 \begin{introduction}[Keywords]
     \item First Order Condition 一阶条件
     \item Bisection Method 二分法
+    \item Secant Method 割线法
+    \item False Position Method 假位法
     \item Newton's Method 牛顿法
 \end{introduction}
 
@@ -90,6 +93,7 @@ $$\min_{x \in \mathbb{R}^n} f(x)$$
         \item If $f$ is strictly \textbf{concave}, then $x^*$ is a global maximum.
     \end{itemize}
 \end{theorem}
+\section{Numerical Optimization}
 \subsection{Bisection Method}
 \begin{definition}[Bisection Method]
     A simple, robust method for finding roots of continuous functions on bounded intervals
@@ -140,8 +144,89 @@ $$\min_{x \in \mathbb{R}^n} f(x)$$
     \caption{Compact Comparison of Numerical Methods}
     \label{tab:comparison_compact}
 \end{table}
+\begin{definition}[Methods]
+    \textbf{Secant Method}:
+    \begin{itemize}
+        \item Compute the secant line through $(x_0, f(x_0))$ and $(x_1, f(x_1))$.
+        \item Find the intersection with the x-axis to get the next approximation $x_2$.
+        \item Iterate until convergence.
+    \end{itemize}
+    \begin{equation}
+        x_{n+1} = x_n - \frac{f(x_n)(x_n - x_{n-1})}{f(x_n) - f(x_{n-1})}   
+    \end{equation}
+    \textbf{False Position Method}:
+    \begin{itemize}
+        \item Similar to the secant method, but always keeps the interval $[a, b]$ such that $f(a)f(b) < 0$.
+        \item Update $a$ or $b$ based on the sign of $f(c)$.
+        \item Iterate until convergence.
+    \end{itemize}
+    $$
+    \begin{aligned}
+        c &= \frac{a f(b) - b f(a)}{f(b) - f(a)}, \\
+        [a, b] &\gets [a, c] \quad \text{if} \quad f(a)f(c) < 0, \\
+        [a, b] &\gets [c, b] \quad \text{if} \quad f(b)f(c) < 0.
+    \end{aligned}
+    $$
+\end{definition}
 
-\section{Numerical Optimization}
+% 并排放入两张图片
+\begin{figure}
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image/secantmethod.png}
+        \caption{Secant Method}
+        \label{fig:secantmethod}
+    \end{minipage}\hfill
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{image/falsepositionmethod.png}
+        \caption{False Position Method}
+        \label{fig:falsepositionmethod}
+    \end{minipage}
+\end{figure}
+\begin{note}
+若初始值足够接近根且函数光滑, 则Secant Method 收敛速度优于False Position Method, 但可能因迭代点跳出根的邻域而发散. False Position Method 保证收敛, 但多一个异号的初始条件且速度较慢.
+\end{note}
+\begin{definition}[Newton-Raphson Method]
+    \begin{itemize}
+        \item Start with an initial guess $x_0$.
+        \item Compute the next approximation using the formula:
+        $$x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$$
+        \item Iterate until convergence.
+    \end{itemize}
+\end{definition}
+\begin{problem}
+为什么牛顿法是二阶收敛的?
+\end{problem}
+\begin{solution}
+对 $f(x)$ 在 $x_n$ 处做泰勒展开, 对于 $f(r)=0$:
+$$f(r) = f(x_n) + f'(x_n)(r - x_n) + \frac{f''(x_n)}{2}(r - x_n)^2 + O((x - x_n)^3)$$
+带入牛顿法迭代公式 $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$:
+$$x_{n+1} - r = (x_n - r)^2 \cdot \frac{f''(x_n)}{2f'(x_n)} $$
+\end{solution}
+\begin{note}
+牛顿法初期可能出问题, 如果不满足足够接近根的假设.
+
+牛顿法可以很好地应用到多变量上, 但过程中Hessian矩阵的逆矩阵计算量较大, 并且他是一个 local method.
+\end{note}
+\begin{example}
+    将牛顿法应用到求解二次可微函数的极值问题, 可以求解 first order condition:
+    $$ x_{n+1} = x_n - [\nabla^2 f(x_n)]^{-1} \nabla f(x_n) $$
+\end{example}
+
+\begin{definition}[Gradient Method]
+    \begin{itemize}
+        \item Start with an initial guess $x_0$ and error tolerance $\epsilon$.
+        \item Iterate until $\|x_{n+1} - x_n\| < \epsilon$:
+        \begin{itemize}
+            \item Compute the gradient $\nabla f(x_n)$.
+            \item Define $\phi(t) = f(x_n - t \nabla f(x_n))$.
+            \item Find the minimum of $\phi(t)$ using a one-variable optimization method (e.g., bisection, secant, or Newton's method).
+            \item Defint $x_{n+1} = x_n - t^* \nabla f(x_n)$.
+        \end{itemize}
+    \end{itemize}
+\end{definition}
 
 %\end{document}
 

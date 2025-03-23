@@ -1,0 +1,107 @@
+\begin{comment}
+    
+
+\documentclass[lang=cn,10pt,green]{elegantbook} 
+\title{2025年数理经济学笔记}
+\subtitle{授课: 杨佳楠老师}
+
+\author{徐靖}
+\institute{PKU}
+\date{Febuary 27, 2025}
+\bioinfo{声明}{请勿用于个人学习外其他用途!}
+
+\extrainfo{个人笔记, 如有谬误, 欢迎指正! 联系方式 : 2200012917@stu.pku.edu.cn}
+
+\setcounter{tocdepth}{3}
+
+\logo{pkuhub-cn.png}
+\cover{cover.jpg}
+
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+
+\maketitle
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+% \end{comment}
+% TODO
+
+\chapter{Multi-Variable Optimization with Equality Constraints}
+
+\begin{introduction}[Keywords]
+    \item Equality Constraints 等式约束
+    \item Lagrange Multiplier 拉格朗日乘数法
+    \item Nondegenerate Constraint Qualification, NDCQ 非退化约束条件
+    \item Cobb-Douglas Utility Function 柯布-道格拉斯效用函数
+\end{introduction}
+\begin{note}
+现在我们考虑有约束条件的优化问题, 这一关键是将约束视为函数方程并引入拉格朗日乘数法. 
+\end{note}
+\begin{definition}[Optimization with Equality Constraints]
+    设 $f(x)$ 是可微函数组, $g(x) = 0$ 是可微约束条件组, 那么我们要优化的问题可以表示为:
+    \begin{equation}
+        \max f(x) \quad s.t. \quad g(x) = 0
+    \end{equation}
+    设 f 是 $n$ 维向量, $g$ 是 $m$ 维向量, x 是 $k$ 维向量. 
+\end{definition}
+\begin{definition}[Lagrange Multiplier]
+    对于上述问题, 我们可以构造拉格朗日函数:
+    \begin{equation}
+        L(x, \lambda) = f(x) + \lambda^T g(x)
+    \end{equation}
+    其中 $\lambda$ 是拉格朗日乘数.
+    通过对 $L$ 求导数, 我们可以得到一组方程:
+    \begin{equation}
+        \frac{\partial L}{\partial x} = 0, \quad \frac{\partial L}{\partial \lambda} = g(x) = 0
+    \end{equation}
+    其解 $(x^*, \lambda^*)$ 就是我们要找的最优解.
+\end{definition}
+\begin{definition}[NDCQ]
+    如果 $g(x)$ 在 $x^*$ 处可微, 且 $Dg(x^*)$ 的秩为 $m$, 那么我们称 $g(x)$ 满足\textbf{非退化约束条件 (NDCQ)}. 
+    其中, $$Dg(x^*) = \begin{pmatrix}
+        \frac{\partial g_1}{\partial x_1} & \cdots & \frac{\partial g_1}{\partial x_k} \\
+        \vdots & \ddots & \vdots \\
+        \frac{\partial g_m}{\partial x_1} & \cdots & \frac{\partial g_m}{\partial x_k}
+    \end{pmatrix}$$
+\end{definition}
+\begin{theorem}[Lagrange Multiplier Theorem]
+    设 $f(x)$ 和 $g(x)$ 都是可微函数, 且 $g(x)$ 满足非退化约束条件. 那么 $(x^*, \lambda^*)$ 是上述优化问题的最优解.
+\end{theorem}
+\begin{note}
+    我们需要进一步判断最大值还是最小值.
+\end{note}
+\begin{definition}[Borderde Hessian Matrix]
+    \begin{equation}
+        H = \begin{pmatrix}
+            0 & Dg(x^*) \\
+            Dg(x^*)^T & D^2 f(x^*)
+        \end{pmatrix}
+    \end{equation}
+    其中 $D^2 f(x^*)$ 是 $f(x)$ 在 $x^*$ 处的 Hessian 矩阵, $Dg(x^*)$ 是 $g(x)$ 在 $x^*$ 处的 Jacobian 矩阵.
+
+    本质是求 Lagrange 函数的 Hessian 矩阵, 它是 $k+m$ 维的.
+\end{definition}
+\begin{theorem}[Sufficient Condition for Maximum]
+    设 $H$ 是上述的 Borderde Hessian 矩阵, 那么如果 $H$ 是正定的, 那么 $(x^*, \lambda^*)$ 是最大值.
+    如果 $H$ 是负定的, 那么 $(x^*, \lambda^*)$ 是最小值.
+\end{theorem}
+
+%\end{document}
+
+
+
+
+
+
+

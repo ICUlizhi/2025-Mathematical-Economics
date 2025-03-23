@@ -11,6 +11,7 @@
 \ProvidesClass{elegantbook}[2022/04/09 v4.3 ElegantBook document class]
 
 
+\RequirePackage{tabularx} 
 %%%
 \RequirePackage{kvoptions}
 \RequirePackage{etoolbox}
@@ -1123,8 +1124,7 @@
 %页眉页脚
 \RequirePackage{fancyhdr}
 \fancyhf{}
-\RequirePackage{tabularx}
-\RequirePackage{makecell}
+
 
 \fancyfoot[c]{\color{structurecolor}\small\thepage}
 \if@twoside
