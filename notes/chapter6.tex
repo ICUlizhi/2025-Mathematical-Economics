@@ -1,0 +1,124 @@
+\begin{comment}
+    
+
+\documentclass[lang=cn,10pt,green]{elegantbook} 
+\title{2025年数理经济学笔记}
+\subtitle{授课: 杨佳楠老师}
+
+\author{徐靖}
+\institute{PKU}
+\date{Febuary 27, 2025}
+\bioinfo{声明}{请勿用于个人学习外其他用途!}
+
+\extrainfo{个人笔记, 如有谬误, 欢迎指正! 联系方式 : 2200012917@stu.pku.edu.cn}
+
+\setcounter{tocdepth}{3}
+
+\logo{pkuhub-cn.png}
+\cover{cover.jpg}
+
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+
+\maketitle
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+% \end{comment}
+% TODO
+
+\chapter{Comparative Statics and Envelope Theorem}
+
+\begin{introduction}[Keywords]
+    \item Generalized Comparative Statics 广义比较静态
+    \item Envelope Theorem 包络定理
+    \item Cramer's Rule 克拉默法则
+\end{introduction}
+
+\section{Comparative Statics}
+\begin{note}
+经济学中的比较静态分析是指在给定一个经济模型的情况下, 研究当 \textbf{exogenous variables} 发生变化时, \textbf{endogenous variables} 的值如何变化. 比如当给定消费者收入去讨论市场供需模型中的均衡价格, 给定税率去讨论对 Monopoly 的影响, 前者作为外生变量(经济模型的输入), 后者作为内生变量(经济模型的输出).
+\end{note}
+
+\begin{definition}[Generalized Comparative Statics]
+    We have an economic model, the equilibrium solution of which is given by the form:
+    $$ F(x^*,\alpha) = 0 $$
+    where $x^*$ is the equilibrium solution of endogenous variables  $x$, and $\alpha$ is a vector of exogenous variables. The key objective is to find the derivative $\frac{\partial x^*_i}{\partial \alpha_j} $ and identify its sign. 
+\end{definition}
+\begin{note}
+这里向量函数 $f$ 的个数应当与内生变量的个数相同, 设为 $n$. 
+\end{note}
+
+\begin{theorem}[Cramer's Rule]
+    Let $F(x^*(\alpha),\alpha) = 0$ be a system of $n$ equations in $n$ unknowns.  The Jacobian matrix of the system is given by:
+    $$ \det J = \begin{bmatrix}
+        \frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_n} \\
+        \vdots & \ddots & \vdots \\
+        \frac{\partial f_n}{\partial x_1} & \cdots & \frac{\partial f_n}{\partial x_n}
+    \end{bmatrix} $$
+    We have:
+    $$ J \frac{\partial x^*}{\partial \alpha_j} + \frac{\partial F}{\partial \alpha_j} =0 , \forall j$$
+    
+    The Cramer's Rule states that the derivative of the equilibrium solution with respect to the exogenous variable $\alpha_j$ is given by:
+    $$ \frac{\partial x^*_i}{\partial \alpha_j} = -\frac{\det J_{ij}}{\det J} $$
+    where $J_{ij}$ is the matrix obtained by replacing the $i$-th column of $J$ with the vector $\frac{\partial F}{\partial \alpha_j}$.
+\end{theorem}
+
+\subsection{Comparative Statics for Unconstrained Optimization}
+这时我们考虑一个最优化问题, 其形式为:
+$$ \max_{x} f(x;a) $$
+
+其中 $f : \mathbb{R}^n \times R^m \to \mathbb{R}$ 是一个可微函数\footnote{请注意 $\nabla f = F$: 这里 $\nabla f=0$ 是1.1.1 小节中函数的 FOC, $F$ 是广义比较静态的模型函数, 我们不是第一次用类似的记号}. $m$ 以下视为 1 (不考虑外生变量之间的影响). 
+
+FOC $\nabla f = 0$可以这样写:
+$$  \frac{\partial f}{\partial x_i} (x^*_1,\dots,x^*_n;a)= 0 , \forall i$$
+
+$f(\cdot)$ 的 FOC 的 Jacobian 矩阵也就是 $f(\cdot)$ 的 Hessian 矩阵:
+$$\det J(x^*;a) = \frac{\partial^2 f}{\partial x^2} (x^*;a)$$
+
+\begin{proposition}[Implict Function Theorem]
+    If $\det J(x^*;a) \neq 0$, then the system implicitly defines differentiable functions:
+    $$ x^*_i : a \to x^*_i(a) , \forall i$$
+    And the derivatives of these functions are given by\footnote{这个式子和上面的 Cramer's Rule 的结论是一样的, 区别是在优化问题中, 我们将向量函数指定为被优化函数的梯度, 那么 Jacobian 矩阵成为了一个特例, 也就是 Hessian 矩阵.}:
+    $$ \frac{\partial x^*_i}{\partial a} = -\frac{\det J_{i}(x^*;a)}{\det J(x^*;a)} $$
+    where $J_{i}$ is the matrix obtained by replacing the $i$-th column of $J$ with the vector $\frac{\partial f}{\partial a}$.
+\end{proposition}
+\begin{note}
+    隐函数定理揭示了二阶条件与比较静态的存在性的关联
+\end{note}
+\subsection{Comparative Statics for Equality Constrained Optimization}
+在等式约束的优化问题中, 我们先做拉格朗日再用同样的隐函数定理方法来进行比较分析, 实际上还是一样的, 因为要对 Lagrangian 函数求一阶条件.
+\section{Envelope Theorem}
+还是之前的最优化问题:
+$$ V(a) = \max_{x} f(x;a) $$
+\begin{itemize}
+    \item $F : \mathbb{R}^n \times R^m \to \mathbb{R}$ is differentiable.
+    \item $a$ is an exogenous variable.
+    \item $x^*(a)$ is a local solution with differentiable components $x^*_i(a) : \mathbb{R} \to \mathbb{R}$.
+\end{itemize}
+
+\begin{theorem}[Envelope Theorem]
+    The derivative of the value function with respect to the exogenous variable $a$ is given by:
+    $$ \begin{aligned}\frac{\partial V(a)}{\partial a} &= \frac{\partial f}{\partial a} (x^*(a);a) + \sum_{i=1}^{n} \frac{\partial f}{\partial x_i} (x^*(a);a) \frac{\partial x^*_i(a)}{\partial a} \\ &=  \frac{\partial f}{\partial a} + \nabla_x f \cdot \frac{\partial x^*(a)}{\partial a} \end{aligned} $$
+    where $\nabla_x f$ is the gradient of the objective function with respect to the endogenous variables, and $\frac{\partial x^*(a)}{\partial a}$ is the derivative of the equilibrium solution with respect to the exogenous variable $a$.
+
+\end{theorem}
+
+%\end{document}
+
+
+
+
+
+
+
