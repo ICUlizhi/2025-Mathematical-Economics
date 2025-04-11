@@ -97,7 +97,21 @@ $$\det J(x^*;a) = \frac{\partial^2 f}{\partial x^2} (x^*;a)$$
     隐函数定理揭示了二阶条件与比较静态的存在性的关联
 \end{note}
 \subsection{Comparative Statics for Equality Constrained Optimization}
-在等式约束的优化问题中, 我们先做拉格朗日再用同样的隐函数定理方法来进行比较分析, 实际上还是一样的, 因为要对 Lagrangian 函数求一阶条件.
+在有约束优化中, 我们先做拉格朗日再用同样的隐函数定理方法来进行比较分析, 实际上还是一样的, 因为要对 Lagrangian 函数求一阶条件.
+$$
+\begin{aligned} &L = f + \lambda h \\&\frac{\partial L}{\partial\lambda}(x^*,\lambda^*;a)=h(x^*;a)=0\\&\frac{\partial L}{\partial x_i}(x^*,\lambda^*;a)=\frac{\partial f}{\partial x_i}(x^*;a)+\lambda^*\frac{\partial h}{\partial x_i}(x^*;a)=0\quad\mathrm{for~}i=1,2,...,n\end{aligned}
+$$
+
+Jacobian 是 Bordered Hessian 矩阵:
+$$\det J_L(x^*;a) = \begin{bmatrix}
+    0 & \frac{\partial h}{\partial x}(x^*;a) \\
+    \frac{\partial h}{\partial x}(x^*;a) & \frac{\partial^2 f}{\partial x^2}(x^*;a)
+\end{bmatrix} $$
+
+利用隐函数定理:
+$$ \frac{\partial x^*_i}{\partial a} = -\frac{\det J_{i}(x^*;a)}{\det J(x^*;a)} $$
+
+其中 $J_{i}$ 是通过将 $J_L$ 的第 $i$ 列替换为 $\frac{\partial L}{\partial a}$ 得到的矩阵.
 \section{Envelope Theorem}
 还是之前的最优化问题:
 $$ V(a) = \max_{x} f(x;a) $$
@@ -109,10 +123,14 @@ $$ V(a) = \max_{x} f(x;a) $$
 
 \begin{theorem}[Envelope Theorem]
     The derivative of the value function with respect to the exogenous variable $a$ is given by:
-    $$ \begin{aligned}\frac{\partial V(a)}{\partial a} &= \frac{\partial f}{\partial a} (x^*(a);a) + \sum_{i=1}^{n} \frac{\partial f}{\partial x_i} (x^*(a);a) \frac{\partial x^*_i(a)}{\partial a} \\ &=  \frac{\partial f}{\partial a} + \nabla_x f \cdot \frac{\partial x^*(a)}{\partial a} \end{aligned} $$
+    $$ \begin{aligned}\frac{\partial V(a)}{\partial a} &= \frac{\partial f}{\partial a} (x^*(a);a) + \sum_{i=1}^{n} \frac{\partial f}{\partial x_i} (x^*(a);a) \frac{\partial x^*_i(a)}{\partial a} \\ &=  \underbrace{\frac{\partial f}{\partial a}}_{\text{直接影响}} + \underbrace{\nabla_x f \cdot \frac{\partial x^*(a)}{\partial a}}_{\text{间接影响}} \end{aligned} $$
     where $\nabla_x f$ is the gradient of the objective function with respect to the endogenous variables, and $\frac{\partial x^*(a)}{\partial a}$ is the derivative of the equilibrium solution with respect to the exogenous variable $a$.
-
 \end{theorem}
+
+\begin{note}
+包络定理揭示了: 当外生参数变化时, 只需考虑该参数的直接影响, 而无需额外计算内生变量调整\footnote{如果是有约束优化, $\lambda$ 的选取也包含在内}带来的间接影响. 因为由一阶条件,  $\nabla_x f$ 项在最优解处趋于零.
+
+\end{note}
 
 %\end{document}
 

@@ -1,0 +1,175 @@
+\begin{comment}
+    
+
+\documentclass[lang=cn,10pt,green]{elegantbook} 
+\title{2025年数理经济学笔记}
+\subtitle{授课: 杨佳楠老师}
+
+\author{徐靖}
+\institute{PKU}
+\date{Febuary 27, 2025}
+\bioinfo{声明}{请勿用于个人学习外其他用途!}
+
+\extrainfo{个人笔记, 如有谬误, 欢迎指正! 联系方式 : 2200012917@stu.pku.edu.cn}
+
+\setcounter{tocdepth}{3}
+
+\logo{pkuhub-cn.png}
+\cover{cover.jpg}
+
+
+% 本文档命令
+\usepackage{array}
+\newcommand{\ccr}[1]{\makecell{{\color{#1}\rule{1cm}{1cm}}}}
+
+% 修改标题页的橙色带
+% \definecolor{customcolor}{RGB}{32,178,170}
+% \colorlet{coverlinecolor}{customcolor}
+
+\begin{document}
+
+\maketitle
+\frontmatter
+
+\tableofcontents
+
+\mainmatter
+% \end{comment}
+% TODO
+
+
+\chapter{From Thick to Thin}
+笔者的一些insights, 便于理解和记忆数理经济学的体系, 也是考前的复习提纲
+\section*{期中部分}
+
+\colorbox{yellow}{前三章} 介绍了前置数学工具, 包括线性代数, 欧式空间(的拓扑性质), 以及多元微分. 其中相对核心的有:
+
+\begin{itemize}
+    \item 正定矩阵及其判定
+    \item 点集拓扑, 紧性
+    \item 拉格朗日乘数法
+\end{itemize}
+
+\subsection*{1. 极值与零点}
+\begin{itemize}
+    \item \textbf{无约束优化}: $f: \mathbb{R}^n \to \mathbb{R}$，求$x^*$使$f(x^*)$最小
+    \item \textbf{函数组零点}: $F: \mathbb{R}^n \to \mathbb{R}^n$，求$x^*$使$F(x^*)=0$
+\end{itemize}
+
+以上两个问题的交集在于 FOC: 
+$$ F = \nabla f = 0 $$
+
+\begin{note}
+换句话说, 优化问题求解的第一步是零点问题, 零点问题的一些特例可以还原成优化问题 (显然不是所有的方程组都是某个函数的 FOC), 假如 $F = \nabla f$, 有:
+\begin{itemize}
+    \item $f$ 的 Hessian 矩阵是 $F$ 的Jacobian 矩阵, 他们都是对称矩阵
+    $$
+    \begin{pmatrix}
+        \frac{\partial^2 f}{\partial x_1^2} & \cdots & \frac{\partial^2 f}{\partial x_1 \partial x_n} \\
+        \vdots & \ddots & \vdots \\
+        \frac{\partial^2 f}{\partial x_n \partial x_1} & \cdots & \frac{\partial^2 f}{\partial x_n^2}
+    \end{pmatrix} = \begin{pmatrix}
+        \frac{\partial F_1}{\partial x_1} & \cdots & \frac{\partial F_1}{\partial x_n} \\
+        \vdots & \ddots & \vdots \\
+        \frac{\partial F_n}{\partial x_1} & \cdots & \frac{\partial F_n}{\partial x_n}
+    \end{pmatrix}
+$$
+\end{itemize}
+\end{note}
+
+\subsubsection*{1.1 零点求解方法}
+\colorbox{yellow}{第四章} 介绍了五种方法
+\begin{itemize}
+    \item \textbf{Bisection}: 二分法, 适用于单变量函数, 需要函数在区间上连续, 且两端异号
+    \item \textbf{Secant}: 割线法, 适用于单变量函数, 需要函数在区间上连续, 且两端异号, 但不需要函数可微
+    \item \textbf{False Position}: 假位法, 适用于单变量函数, 需要函数在区间上连续, 且两端异号, 但不需要函数可微, 但比割线法更快收敛
+    \item \textbf{Newton Raphson}: 牛顿法, 适用于单变量函数, 需要函数在区间上连续, 且两端异号, 需要函数可微, 但不需要函数二阶可微
+    \item \textbf{Gradient Descent}: 梯度下降法, 适用于多变量函数, 需要函数在区间上连续, 且两端异号, 需要函数可微, 但不需要函数二阶可微
+\end{itemize}
+
+\subsubsection*{1.2 极值点判定}
+规范方法 : 判断 Hessian 矩阵的正定性, 本课程用顺序主子式法\footnote{正小负大}来判断会比较快
+$$
+\begin{array}{|c|c|c|}
+\hline
+H_f & H_i & x^* \\ \hline
+\text{正定} & H_i > 0 & \text{极小值} \\ \hline
+\text{负定} & H_i < 0 & \text{极大值} \\ \hline
+\text{不定} & H_i \neq 0, \text{但不属于以上两种} & \text{鞍点} \\ \hline
+\end{array}
+$$
+
+
+实用技巧: 
+\begin{itemize}
+    \item 正定矩阵的特征值都是正数, 负定矩阵的特征值都是负数
+    \item 先代入临界点排除明显非极值情况
+    \item  结合 $f$ 的凹凸性判断, 如果严格凸或者严格凹, 则临界点一定是极小值或者极大值
+\end{itemize}
+
+\subsection*{2. 无约束优化与约束优化}
+
+约束优化是\colorbox{yellow}{第五章}的内容, 即在可微函数\textbf{组} $g(x) = 0$ 上求 $f$ 的极值, 沟通二者的桥梁是拉格拉日乘数法与 \textbf{NDCQ}
+$$ L(x, \lambda) = f(x) + \lambda^\top g(x) $$
+然后 $(x^*, \lambda^*)$ 是一阶条件 $\nabla L(x^*, \lambda^*) = 0$ 的解, 我们似乎回到了无约束优化
+
+\subsubsection*{2.1 非退化约束条件} 
+NDCQ (非退化约束条件) 是让拉格朗日乘数法成立的条件
+\begin{theorem}
+假设 $x$ 是 $k$ 维向量, $\lambda$ 是 $m$ 维向量, 则 $L$ 是 $k + m$ 维向量, 考虑
+$$
+Dg(x^*) = 
+\begin{pmatrix}
+\frac{\partial g_1}{\partial x_1} & \cdots & \frac{\partial g_1}{\partial x_k} \\
+\vdots & \ddots & \vdots \\
+\frac{\partial g_m}{\partial x_1} & \cdots & \frac{\partial g_m}{\partial x_k}
+\end{pmatrix}
+$$
+\textbf{NDCQ: } $\text{rank}(Dg(x^*)) = m$
+\begin{itemize}
+    \item 假如 \textbf{NDCQ} 得到满足, 则 $(x^*, \lambda^*)$ 可能是极值点
+    \item 假如不满足, 即约束 $g$ 是退化的, 此时可能仍然存在极值点, 但无法由拉格朗日乘数法得到
+\end{itemize}
+\end{theorem}
+  
+\subsubsection*{2.2 加边海色矩阵} 
+加边海色矩阵是判断有约束优化问题极值点的工具:
+$$
+\bar{H} = 
+\begin{pmatrix}
+0 & Dg(x^*) \\
+Dg(x^*)^\top & H_f(x^*)
+\end{pmatrix}
+$$ 
+
+加边后显然不正定了, 判断方法\footnote{判断方法和完整证明参考\href{https://sites.math.northwestern.edu/~clark/285/2006-07/handouts/lagrange-2deriv.pdf}{Northwestern University 的笔记}. 实际上, 课堂上只讲了 $m = 1$ 的情形, 在此情形下极小值对应主子式恒负, 极大值对应符号交替, 这样就不对称, 和无约束优化问题的海色矩阵对比起来显得不自然. 经济学中最简单的 $m=1, n=2$ 的情形, 自然只需看 $|\bar{H}|$ 的符号, 正大负小}也有变化 :
+$$
+\begin{array}{|c|c|c|}
+\hline
+\bar{H} & H_{i}, i\in [2m+1,n+m] & x^* \\ \hline
+ & \text{sgn} H_{i} = (-1)^{m} & \text{极小值} \\ \hline
+ & \text{sgn} H_{i} = (-1)^{i-m} & \text{极大值} \\ \hline
+ & \text{sgn} H_{i} \neq 0, \text{但不属于以上两种} & \text{鞍点} \\ \hline
+\end{array}
+$$
+\begin{note}
+对加边海色矩阵的一个直观理解\footnote{这个直观理解来自于 \href{https://www.math.cmu.edu/~hanifc/NotesOnHessians.pdf}{CMU 的笔记}} : 假如 $f$ 在 $g = 0$ 这个$n-m$ 维的嵌入 $\mathbb{R}^n$ 的流形上表现出了类似正定负定的性质, 那么可以判断是极值还是鞍点, 比如我们在 3 维空间中的球面上找极值.
+\end{note}
+
+做题时如果从几何解释出发, 可以避免犯错
+
+\subsection*{3. 内生与外生}
+\colorbox{yellow}{第六章} 的内容, 现在我们要探究变量间的相互影响, 实际上, 探究外生变量 (作为经济模型的输入) 对内生变量 (经济模型的输出) 的单对单的影响 (偏导数)
+
+\section*{期末部分}
+
+
+
+% \end{document}
+
+
+
+
+
+
+

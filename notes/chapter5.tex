@@ -49,7 +49,7 @@
 现在我们考虑有约束条件的优化问题, 这一关键是将约束视为函数方程并引入拉格朗日乘数法. 
 \end{note}
 \begin{definition}[Optimization with Equality Constraints]
-    设 $f(x)$ 是可微函数组, $g(x) = 0$ 是可微约束条件组, 那么我们要优化的问题可以表示为:
+    设 $f(x)$ 是可微函数, $g(x) = 0$ 是可微约束条件组, 那么我们要优化的问题可以表示为:
     \begin{equation}
         \max f(x) \quad s.t. \quad g(x) = 0
     \end{equation}
@@ -93,9 +93,11 @@
     本质是求 Lagrange 函数的 Hessian 矩阵, 它是 $k+m$ 维的.
 \end{definition}
 \begin{theorem}[Sufficient Condition for Maximum]
-    设 $H$ 是上述的 Borderde Hessian 矩阵, 那么如果 $H$ 是正定的, 那么 $(x^*, \lambda^*)$ 是最大值.
-    如果 $H$ 是负定的, 那么 $(x^*, \lambda^*)$ 是最小值.
+    设 $H$ 是上述的 Borderde Hessian 矩阵, 那么如果顺序主子式交替符号, 且 $\det H$ 的符号与 $(-1)^m$ 相同, 则 $(x^*, \lambda^*)$ 是局部极大值, 若顺序主子式恒为负, 则 $(x^*, \lambda^*)$ 是局部极小值.
 \end{theorem}
+\begin{note}
+这里我们不再用正定性来判断, 因为加边海色矩阵的左上 $k$ 阶主子式是为 $0$.
+\end{note}
 
 %\end{document}
 
