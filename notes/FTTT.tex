@@ -45,9 +45,9 @@
 \colorbox{yellow}{前三章} 介绍了前置数学工具, 包括线性代数, 欧式空间(的拓扑性质), 以及多元微分. 其中相对核心的有:
 
 \begin{itemize}
-    \item 正定矩阵及其判定
-    \item 点集拓扑, 紧性
-    \item 拉格朗日乘数法
+    \item 正定矩阵及其判定, 对角化的一系列结论
+    \item Bolzano-Weierstrass Theorem
+    \item Hessian, Jacobian, lagrange
 \end{itemize}
 
 \subsection*{1. 极值与零点}
@@ -80,11 +80,12 @@ $$
 \subsubsection*{1.1 零点求解方法}
 \colorbox{yellow}{第四章} 介绍了五种方法
 \begin{itemize}
-    \item \textbf{Bisection}: 二分法, 适用于单变量函数, 需要函数在区间上连续, 且两端异号
-    \item \textbf{Secant}: 割线法, 适用于单变量函数, 需要函数在区间上连续, 且两端异号, 但不需要函数可微
-    \item \textbf{False Position}: 假位法, 适用于单变量函数, 需要函数在区间上连续, 且两端异号, 但不需要函数可微, 但比割线法更快收敛
-    \item \textbf{Newton Raphson}: 牛顿法, 适用于单变量函数, 需要函数在区间上连续, 且两端异号, 需要函数可微, 但不需要函数二阶可微
-    \item \textbf{Gradient Descent}: 梯度下降法, 适用于多变量函数, 需要函数在区间上连续, 且两端异号, 需要函数可微, 但不需要函数二阶可微
+    \item \textbf{Bisection}: 二分法, $x_{n+1} = \frac{x_n + x_{n-1}}{2}$
+    \item \textbf{Secant}: 割线法, $x_{n+1} = x \text{axis} \cap \text{line}(x_n, x_{n-1})$
+    \item \textbf{False Position}: 假位法, 是割线法的变种, 每次都在 $x_n$ 和 $x_{n-1}$ 之间取一个点与 $x_{n+1}$ 构成新区间, 保证区间含根
+    \item \textbf{Newton Raphson}: 牛顿法, $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$
+    \item \textbf{Gradient Descent}: 梯度下降法, $x_{n+1} = x_n - t \nabla f(x_n)$, 其中 $t = \arg\min_{t > 0} f(x_n - t \nabla f(x_n))$
+    
 \end{itemize}
 
 \subsubsection*{1.2 极值点判定}
@@ -158,14 +159,31 @@ $$
 
 做题时如果从几何解释出发, 可以避免犯错
 
-\subsection*{3. 内生与外生}
-\colorbox{yellow}{第六章} 的内容, 现在我们要探究变量间的相互影响, 实际上, 探究外生变量 (作为经济模型的输入) 对内生变量 (经济模型的输出) 的单对单的影响 (偏导数)
+\subsection*{3. 外生变量}
+\colorbox{yellow}{第六章} 的内容探究外生变量的作用. 一是探究外生变量 (作为经济模型的输入) 对内生变量 (经济模型的输出) 的影响 (偏导数), 二是外生变量对最优值函数 $V=\max f$ 的影响 (包络定理).
 
+打个比方, 企业的生产存在外部因素(劳动力价格, 资本价格等), 决策得到的产量, 最终的成本/收益. 这三者分别对应外生变量, 内生变量, 最优值函数.
+
+\subsection*{3.1 对内生变量的影响}
+无论无约束还是有约束, 对于多元函数 $f$ (或 $L = f+\lambda g$), 和方程组 $ F = \nabla f = 0$, 对外生变量 $\alpha$ 求导有:
+$$\sum_{i=1}^{n} \frac{\partial F_k}{\partial x_i}\frac{\partial x_i}{\partial \alpha} + \frac{\partial F_k}{\partial \alpha}=0$$
+
+整理得:
+$$J \frac{\partial x^*}{\partial \alpha} + \frac{\partial F}{\partial \alpha} =0$$
+
+其中 $J$ 是 $f$ 的 Hessian 矩阵 (Bordered Hessian 矩阵), 也是 $F$ 的 Jacobian 矩阵. 规定 $J_i$ 是用 $F$ 取代原本第 $i$ 列后的矩阵. 利用隐函数定理和克拉默法则, 我们可以得到:
+$$ \frac{\partial x^*_i}{\partial \alpha} = -\frac{\det J_{i}}{\det J} $$
+
+\subsection*{3.1 对最优值函数的影响}
+外生变量对最优值函数的影响, 包含直接影响和通过内生变量作用的间接影响两部分. 而包络定理揭示了后者在最优解处趋于零 (因为 $\nabla f = 0$), 因此只需考虑前者. 
+$$\frac{\partial V(a)}{\partial a} = \underbrace{\frac{\partial f}{\partial a}}_{\text{直接影响}} + \underbrace{\nabla_x f \cdot \frac{\partial x^*(a)}{\partial a}}_{\text{间接影响}} $$
+
+形象的经济学理解比如 Shephard's Lemma : 当要素的价格上涨 1 单位时, 最小成本的边际增加量正好等于厂商对该要素的使用量.
 \section*{期末部分}
 
 
 
-% \end{document}
+%\end{document}
 
 
 

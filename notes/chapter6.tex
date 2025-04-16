@@ -43,6 +43,7 @@
     \item Generalized Comparative Statics 广义比较静态
     \item Envelope Theorem 包络定理
     \item Cramer's Rule 克拉默法则
+    \item Shephard’s Lemma 谢泼德引理
 \end{introduction}
 
 \section{Comparative Statics}
@@ -132,6 +133,20 @@ $$ V(a) = \max_{x} f(x;a) $$
 
 \end{note}
 
+对于有约束优化也一样:
+$$\frac{\partial V(a)}{\partial a} = \frac{\partial f}{\partial a} + \sum_{i=1}^{n} \lambda_i \frac{\partial g}{\partial a} $$
+
+包络定理这一名称源于它在成本曲线上的应用 :
+\begin{itemize}
+    \item 长期总成本曲线是短期总成本曲线的包络线
+    \item 短期总成本曲线是通过改变固定投入水平而产生的
+    \item 包络定理为这种关系提供了严格的数学基础
+\end{itemize}
+
+\begin{proposition}[Shephard’s Lemma]
+    当要素的价格上涨 1 单位时, 最小成本的边际增加量正好等于厂商对该要素的使用量. 
+    $$ \frac{\partial C(w_1,w_2,y)}{\partial w_i} = x_i(w_1,w_2,y) $$
+\end{proposition}
 %\end{document}
 
 
