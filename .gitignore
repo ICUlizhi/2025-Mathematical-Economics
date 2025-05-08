@@ -3,7 +3,9 @@ slides/
 **/.DS_Store
 **/.vscode
 notes/*.pdf
-
+1.pdf
+2.pdf
+2.jpg
 cifar-10-batches-py
 experiments
 datasets
